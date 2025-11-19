@@ -1,6 +1,7 @@
 from fastapi import FastAPI 
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.users import router as users_router
+from app.api.playlists import router as playlists_router
 
 app = FastAPI(
     title="Rekords",
@@ -17,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(users_router)
+app.include_router(playlists_router)
 
 @app.get("/")
 def read_root():

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import PlaylistCard from "@/components/ui/PlaylistCard";
 import { Button } from "@/components/ui/Button";
 import ImportModal from "@/components/ui/ImportModal";
+import { fetchPlaylistsByUserId } from "@/api/playlists";
+import { getCurrentUser } from "@/api/user";
 
-interface Collection {
+interface Playlist {
   id: string;
   name: string;
   tracks?: number;
@@ -16,13 +18,13 @@ interface Collection {
 }
 
 export default function LibraryPage() {
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<Playlist[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedImport, setSelectedImport] = useState<string | null>(null);
   const [demoShown, setDemoShown] = useState(false);
 
-  const sampleCollections: Collection[] = [
+  const sampleCollections: Playlist[] = [
     {
       id: "demo-1",
       name: "Chill House Essentials",
@@ -60,6 +62,22 @@ export default function LibraryPage() {
       .then((res) => res.json())
       .then((data) => setCollections(data.collections || data.playlists || []))
       .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    async function loadLibrary() {
+      // 1. Get current user (replace "test1" once you add real auth)
+      const user = await getCurrentUser("test2");
+      if (!user) return;
+
+      // 2. Load their playlists
+      const playlists = await fetchPlaylistsByUserId(user.id);
+
+      // 3. Store in state
+      setCollections(playlists);
+    }
+
+    loadLibrary();
   }, []);
 
   return (

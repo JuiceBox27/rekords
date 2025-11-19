@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from app.db import Base
 
 
@@ -13,3 +14,5 @@ class User(Base):
 
     def to_dict(self):
         return {"id": self.id, "username": self.username}
+    
+    playlists = relationship("Playlist", back_populates="user", cascade="all, delete-orphan")
