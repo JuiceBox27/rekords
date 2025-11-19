@@ -22,40 +22,6 @@ export default function LibraryPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedImport, setSelectedImport] = useState<string | null>(null);
-  const [demoShown, setDemoShown] = useState(false);
-
-  const sampleCollections: Playlist[] = [
-    {
-      id: "demo-1",
-      name: "Chill House Essentials",
-      genre: "House",
-      bpmFrom: 115,
-      bpmTo: 125,
-      description: "Deep, groovy house perfect for sunset sets.",
-      tracks: 24,
-      createdAt: "2025-01-01T00:00:00.000Z",
-    },
-    {
-      id: "demo-2",
-      name: "Peak-Time Tech",
-      genre: "Techno",
-      bpmFrom: 125,
-      bpmTo: 135,
-      description: "Hard-hitting peak time tracks to keep the energy high.",
-      tracks: 18,
-      createdAt: "2025-02-14T00:00:00.000Z",
-    },
-    {
-      id: "demo-3",
-      name: "Downtempo & Chill",
-      genre: "Downtempo",
-      bpmFrom: 60,
-      bpmTo: 90,
-      description: "Laid back instrumentals and ambient textures.",
-      tracks: 40,
-      createdAt: "2024-12-05T00:00:00.000Z",
-    },
-  ];
 
   useEffect(() => {
     fetch("/api/library")
@@ -114,12 +80,12 @@ export default function LibraryPage() {
                 <button
                   className="w-full text-left px-4 py-2 hover:bg-gray-100"
                   onClick={() => {
-                    setSelectedImport("Rekordbox XML");
+                    setSelectedImport("Rekordbox M3U8");
                     setMenuOpen(false);
                     setModalOpen(true);
                   }}
                 >
-                  Rekordbox XML
+                  Rekordbox M3U8
                 </button>
                 <button
                   className="w-full text-left px-4 py-2 hover:bg-gray-100"
@@ -144,20 +110,6 @@ export default function LibraryPage() {
               </div>
             )}
           </div>
-          <Button
-            variant="ghost"
-            onClick={() => {
-              if (!demoShown) {
-                setCollections(sampleCollections);
-                setDemoShown(true);
-              } else {
-                setCollections([]);
-                setDemoShown(false);
-              }
-            }}
-          >
-            {demoShown ? "Hide demo" : "Show demo"}
-          </Button>
         </div>
       </div>
 
