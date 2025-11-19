@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/edwad";
 
 export default function TrackCard({ track }: { track: any }) {
   return (
