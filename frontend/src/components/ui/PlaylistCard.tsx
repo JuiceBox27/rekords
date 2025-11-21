@@ -1,5 +1,7 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
+import { slugify } from "@/lib/utils";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -10,20 +12,24 @@ interface PlaylistCardProps {
   bpmFrom?: number;
   bpmTo?: number;
   description?: string;
-  onView?: () => void;
   className?: string;
 }
 
 export default function PlaylistCard({
+  id,
   name,
   genre,
   bpmFrom,
   bpmTo,
   description,
-  onView,
   className,
 }: PlaylistCardProps) {
-  const bpmText = bpmFrom || bpmTo ? `${bpmFrom ?? "—"}${bpmFrom && bpmTo ? "–" : ""}${bpmTo ?? ""} BPM` : "— BPM";
+  const navigate = useNavigate(); // hook for programmatic navigation
+
+  const bpmText =
+    bpmFrom || bpmTo
+      ? `${bpmFrom ?? "—"}${bpmFrom && bpmTo ? "–" : ""}${bpmTo ?? ""} BPM`
+      : "— BPM";
 
   return (
     <Card className={className}>
@@ -42,7 +48,8 @@ export default function PlaylistCard({
 
       <CardFooter>
         <div className="ml-auto flex gap-2">
-          <Button onClick={onView}>View</Button>
+          {/* Navigate to PlaylistSongsPage when clicked */}
+          <Button onClick={() => navigate(`/library/playlist/${slugify(name)}-${id}`)}>View</Button>
         </div>
       </CardFooter>
     </Card>
